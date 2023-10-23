@@ -1,0 +1,50 @@
+FROM php:8.0.8-fpm
+
+# Download script to install PHP extensions and dependencies
+ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
+
+RUN chmod uga+x /usr/local/bin/install-php-extensions && sync
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update -q \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -qq -y --no-install-recommends apt-utils \
+      nano \
+      nodejs \
+      yarn \
+      curl \
+      git \
+      zip unzip \
+      telnet \
+      iputils-ping \
+    && install-php-extensions \
+      apcu \
+      bcmath \
+      bz2 \
+      calendar \
+      exif \
+      gd \
+      intl \
+      ldap \
+      memcache \
+      memcached \
+      mysqli \
+      opcache \
+      pdo_mysql \
+      redis \
+      soap \
+      xsl \
+      zip \
+      ssh2 \
+      oauth \
+      igbinary \
+      sockets \
+      openssl-dev
+
+
+# Install Composer.
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && ln -s $(composer config --global home) /root/composer
+ENV PATH=$PATH:/root/composer/vendor/bin COMPOSER_ALLOW_SUPERUSER=1
+
+#increase timeout to 120s
+RUN echo 'max_execution_time = 120' >> /usr/local/etc/php/conf.d/docker-php-maxexectime.ini;
+

@@ -1,0 +1,30 @@
+# Use https://phpdocker.io/
+version: '3.7'
+services:
+  web:
+    image: library/nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - .:/sites
+      - ./dockerfiles/nginx:/etc/nginx/conf.d
+      - ./dockerfiles/ssl:/etc/nginx/certs
+    links:
+      - fpm
+  fpm:
+    build:
+      context: ./dockerfiles
+      dockerfile: php
+    volumes:
+      - .:/sites
+    ports:
+      - 9000
+    expose:
+      - 9000
+    environment:
+      - RDS_DB_NAME=travel_blog
+      - RDS_USERNAME=root
+      - RDS_PASSWORD=secret
+      - RDS_HOSTNAME=host.docker.internal
+      - RDS_PORT=6333
