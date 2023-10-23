@@ -37,6 +37,7 @@ define( 'DB_CHARSET', 'utf8' );
 /** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
 
+
 /**#@+
  * Authentication unique keys and salts.
  *
@@ -83,6 +84,8 @@ define( 'WP_DEBUG', false );
 
 /* Add any custom values between this line and the "stop editing" line. */
 
+// headless plugin, set up redirect url when local visit site domain
+define( 'HEADLESS_MODE_CLIENT_URL', 'https://travel-blog-wp.local/wp-login.php' );
 
 
 /* That's all, stop editing! Happy publishing. */
