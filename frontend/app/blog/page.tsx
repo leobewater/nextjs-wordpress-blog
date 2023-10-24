@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import FeaturedImages from "@/components/FeaturedImages";
 import SiteFooter from "@/components/SiteFooter";
+import Date from "@/components/Date";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -43,7 +44,7 @@ const BlogHome = async () => {
                     </Link>
                   </h2>
                   <div className="py-4">
-                    {/* Published on <Date dateString={post.date} /> */}
+                    Published on <Date dateString={post.date} />
                   </div>
                   <div
                     className="text-lg"
